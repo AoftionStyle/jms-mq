@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Configuration
 @ConfigurationProperties(prefix = "ibm.mq")
-public class IBMConfiguration extends MQConfigurationProperties {
+public class MQConfiguration extends MQConfigurationProperties {
     @Getter
     @Setter
     private String destination;

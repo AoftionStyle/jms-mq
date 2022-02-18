@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
-import co.aoftionstyle.spring.boot.jms.mq.ibm.process.JmsMQProcess;
+import co.aoftionstyle.spring.boot.jms.mq.ibm.process.MQProcess;
 
 @Controller
-public class IBMController implements CommandLineRunner {
+public class MQController implements CommandLineRunner {
 
     @Autowired
-    JmsMQProcess process;
+    MQProcess process;
 
     @Override
     public void run(String... args) throws Exception {

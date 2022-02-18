@@ -22,14 +22,15 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
+import org.springframework.jms.core.JmsTemplate;
 
-import co.aoftionstyle.spring.boot.jms.mq.ibm.configuration.IBMConfiguration;
+import co.aoftionstyle.spring.boot.jms.mq.ibm.configuration.MQConfiguration;
 
 @Configuration
 @EnableJms
-public class IBMConnection {
+public class MQConnection {
     @Autowired
-    IBMConfiguration configurator;
+    MQConfiguration configurator;
 
     @Bean
     public ObjectProvider<List<MQConnectionFactoryCustomizer>> getfactoryCustomizers() {
@@ -82,6 +83,17 @@ public class IBMConnection {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         configurer.configure(factory, connectionFactory);
         return factory;
+    }
+
+    /*
+     * Used for Sending Messages.
+     */
+    @Bean(name = "MQJmsTemplate")
+    public JmsTemplate jmsTemplate() throws JMSException{
+        JmsTemplate template = new JmsTemplate();
+        template.setConnectionFactory(connectionFactory());
+        // template.setDefaultDestinationName(ORDER_RESPONSE_QUEUE);
+        return template;
     }
 
 }
