@@ -28,21 +28,8 @@ import co.aoftionstyle.spring.boot.jms.mq.ibm.configuration.IBMConfiguration;
 @Configuration
 @EnableJms
 public class IBMConnection {
-
     @Autowired
-    @Qualifier("IBMConfiguration") 
     IBMConfiguration configurator;
-    
-    @Bean
-    public MQConfigurationProperties configureProperties() {
-        MQConfigurationProperties properties = new MQConfigurationProperties();
-        properties.setQueueManager(configurator.getQueueManager());
-        properties.setChannel(configurator.getChannel());
-        properties.setConnName(configurator.getConnName());
-        properties.setUser(configurator.getUser());
-        properties.setPassword(configurator.getPassword());
-        return properties;
-    }
 
     @Bean
     public ObjectProvider<List<MQConnectionFactoryCustomizer>> getfactoryCustomizers() {
@@ -73,18 +60,7 @@ public class IBMConnection {
     @Bean
     @Primary
     public ConnectionFactory connectionFactory() throws JMSException{
-        // QueueProperties localProperties = localConfigurationProperties();
-        // MQConnectionFactory connectionFactory = new MQConnectionFactory();
-        // log.info("local : {}", localProperties.getDestination());
-        // connectionFactory.setQueueManager(localProperties.getQueueManager());
-        // connectionFactory.setChannel(localProperties.getChannel());
-        // connectionFactory.setConnectionNameList(localProperties.getConnName());
-        // connectionFactory.setTransportType(CommonConstants.WMQ_CM_CLIENT);
-        // connectionFactory.
-        // List<MQConnectionFactoryCustomizer> factoryCustomizers;
-        // MQConnectionFactory a = new MQConnectionFactoryFactory(configurationProperties(), getfactoryCustomizers().getIfAvailable()).createConnectionFactory(MQConnectionFactory.class);
-
-        MQConfigurationProperties properties = configureProperties();
+        MQConfigurationProperties properties = configurator;
         List<MQConnectionFactoryCustomizer> factoryCustomizers = getfactoryCustomizers().getIfAvailable();
         return new MQConnectionFactoryFactory(properties, factoryCustomizers).createConnectionFactory(MQConnectionFactory.class);
     }
@@ -107,25 +83,5 @@ public class IBMConnection {
         configurer.configure(factory, connectionFactory);
         return factory;
     }
-
-    // @Bean
-    // public TaskExecutor taskExecutor() {
-    //     return new DefaultManagedTaskExecutor();
-    // }
-
-    // /*
-    //  * Message listener container, used for invoking messageReceiver.onMessage on message reception.
-    //  */
-    // @Bean
-    // public DefaultJmsListenerContainerFactory container() throws JMSException{
-    //     // QueueProperties localProperties = localConfigurationProperties();
-    //     DefaultJmsListenerContainerFactory container = new DefaultJmsListenerContainerFactory();
-    //     // DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
-    //     container.setConnectionFactory(connectionFactory());
-    //     container.setTaskExecutor(taskExecutor());
-    //     // container.setDestinationName(localProperties.getDestination());
-    //     // container.setMessageListener(messageReceiver);
-    //     return container;
-    // }
 
 }

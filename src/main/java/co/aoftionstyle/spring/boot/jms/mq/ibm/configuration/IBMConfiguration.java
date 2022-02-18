@@ -1,35 +1,17 @@
 package co.aoftionstyle.spring.boot.jms.mq.ibm.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.ibm.mq.spring.boot.MQConfigurationProperties;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
 @Configuration
-public class IBMConfiguration {
-    
-    // @Bean(name = "blendConfigurator")
-    // @ConfigurationProperties(prefix = "queue")
-    // public MQConfigurationProperties blendConfigurator() {
-    //     return new MQConfigurationProperties();
-    // }
-
-    @Value("${app.queue.queueManager}")
-    private String queueManager;
-
-    @Value("${app.queue.channel}")
-    private String channel;
-    
-    @Value("${app.queue.connName}")
-    private String connName;
-
-    @Value("${app.queue.user}")
-    private String user;
-
-    @Value("${app.queue.password}")
-    private String password;
-
-    @Value("${app.queue.destination}")
+@ConfigurationProperties(prefix = "ibm.mq")
+public class IBMConfiguration extends MQConfigurationProperties {
+    @Getter
+    @Setter
     private String destination;
 }
