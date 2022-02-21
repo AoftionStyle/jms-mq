@@ -10,7 +10,6 @@ import co.aoftionstyle.spring.boot.jms.mq.service.MessageService;
 
 @Component
 public class MQSender extends MessageService<String> {
-
     @Autowired
     MQConfiguration configuration;
 

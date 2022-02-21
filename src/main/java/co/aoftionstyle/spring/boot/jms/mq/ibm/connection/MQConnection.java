@@ -26,8 +26,8 @@ import org.springframework.jms.core.JmsTemplate;
 
 import co.aoftionstyle.spring.boot.jms.mq.ibm.configuration.MQConfiguration;
 
-@Configuration
 @EnableJms
+@Configuration
 public class MQConnection {
     @Autowired
     MQConfiguration configurator;
@@ -59,8 +59,7 @@ public class MQConnection {
     }
 
     @Bean
-    @Primary
-    public ConnectionFactory connectionFactory() throws JMSException{
+    public ConnectionFactory mqConnectionFactory() throws JMSException{
         MQConfigurationProperties properties = configurator;
         List<MQConnectionFactoryCustomizer> factoryCustomizers = getfactoryCustomizers().getIfAvailable();
         return new MQConnectionFactoryFactory(properties, factoryCustomizers).createConnectionFactory(MQConnectionFactory.class);
@@ -70,16 +69,16 @@ public class MQConnection {
      * Optionally you can use cached connection factory if performance is a big concern.
      */
     @Bean
-    public ConnectionFactory cachingConnectionFactory() throws JMSException{
+    public ConnectionFactory mqCachingConnectionFactory() throws JMSException{
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setTargetConnectionFactory(connectionFactory());
+        connectionFactory.setTargetConnectionFactory(mqConnectionFactory());
         connectionFactory.setSessionCacheSize(10);
         return connectionFactory;
     }
 
     @Bean
     @Primary
-    public JmsListenerContainerFactory<?> jmsListenerContainerFactory(@Qualifier("cachingConnectionFactory") ConnectionFactory connectionFactory, DefaultJmsListenerContainerFactoryConfigurer configurer) {
+    public JmsListenerContainerFactory<?> jmsListenerContainerFactory(@Qualifier("mqCachingConnectionFactory") ConnectionFactory connectionFactory, DefaultJmsListenerContainerFactoryConfigurer configurer) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         configurer.configure(factory, connectionFactory);
         return factory;
@@ -89,10 +88,9 @@ public class MQConnection {
      * Used for Sending Messages.
      */
     @Bean(name = "MQJmsTemplate")
-    public JmsTemplate jmsTemplate() throws JMSException{
+    public JmsTemplate mqJmsTemplate() throws JMSException{
         JmsTemplate template = new JmsTemplate();
-        template.setConnectionFactory(connectionFactory());
-        // template.setDefaultDestinationName(ORDER_RESPONSE_QUEUE);
+        template.setConnectionFactory(mqCachingConnectionFactory());
         return template;
     }
 
