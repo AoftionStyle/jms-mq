@@ -19,6 +19,10 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.integration:spring-integration-jms'
+	implementation 'com.ibm.mq:mq-jms-spring-boot-starter:+'
+	implementation 'com.amazonaws:aws-java-sdk-sqs:+'
+	implementation 'com.amazonaws:amazon-sqs-java-messaging-lib:+'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
