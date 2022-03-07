@@ -18,19 +18,6 @@ public class MQSender extends MessageService<String> {
     JmsTemplate jmsTemplate;
 
     public void send(String message) {
-        // jmsTemplate.send(new MessageCreator(){
-        //     @Override
-        //     public Message createMessage(Session session) throws JMSException{
-        //         ObjectMessage objectMessage = session.createObjectMessage(message);
-        //         return objectMessage;
-        //     }
-
-        //     @Override
-        //     public Message createMessage(Session session) throws JMSException {
-        //         // TODO Auto-generated method stub
-        //         return null;
-        //     }
-        // });
         jmsTemplate.convertAndSend(configuration.getDestination(), message);
     }
 

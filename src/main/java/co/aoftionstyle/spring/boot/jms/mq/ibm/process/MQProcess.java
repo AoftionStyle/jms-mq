@@ -24,25 +24,20 @@ public class MQProcess extends JmsMQProcession<String[]> {
     public void onProcess(String[] args) {
         log.info("onProcess...");
         SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy hh:mm:ss");
-        // String dateString = format.format(new Date());
 
         int secPerMillis = 1000;
         int minute = 60*secPerMillis;
 
-        for(int i = 0; i < 10; i++) {
+        while(true) {
             try {
                 String dateString = format.format(new Date());
                 String message = "aoftion:" + dateString;
                 log.info("sender sent = {}", message);
                 sender.send(message);
-                // String msg = receiver.receive();
-                // log.info("msg : {}", msg);
-                // TimeUnit.SECONDS.sleep(60);
                 
                 Thread.sleep(2*minute);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
     }

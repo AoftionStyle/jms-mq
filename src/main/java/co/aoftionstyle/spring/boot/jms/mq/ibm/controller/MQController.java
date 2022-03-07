@@ -15,9 +15,8 @@ public class MQController implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // TODO Auto-generated method stub
         log.info("MQController...");
-        // process.onProcess(args);
+        process.onProcess(args);
     }
 
 }
