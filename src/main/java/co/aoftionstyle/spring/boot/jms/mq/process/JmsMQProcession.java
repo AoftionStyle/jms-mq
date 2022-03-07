@@ -4,7 +4,6 @@ public class JmsMQProcession<E> implements JmsMQProcessable<E> {
 
     @Override
     public void onProcess(E e) {
-        // TODO Auto-generated method stub
         
     }
     
