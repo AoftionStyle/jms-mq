@@ -32,14 +32,14 @@ public class MQProcess extends JmsMQProcession<String[]> {
             try {
                 String dateString = format.format(new Date());
                 String message = "aoftion:" + dateString;
-                log.info("sender sent = {}", message);
                 sender.send(message);
                 
-                Thread.sleep(2*minute);
-            } catch (InterruptedException e) {
+                int mins = (int) (minute * 0.5);
+                Thread.sleep(mins);
+                log.info("received = {}", receiver.receive());
+            } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
         }
     }
-
 }

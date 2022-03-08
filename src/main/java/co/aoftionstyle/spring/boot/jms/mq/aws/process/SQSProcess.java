@@ -24,7 +24,6 @@ public class SQSProcess extends JmsMQProcession<String[]> {
     public void onProcess(String[] args) {
         log.info("onProcess...");
         SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy hh:mm:ss");
-        // String dateString = format.format(new Date());
 
         int secPerMillis = 1000;
         int minute = 60*secPerMillis;
@@ -33,18 +32,13 @@ public class SQSProcess extends JmsMQProcession<String[]> {
             try {
                 String dateString = format.format(new Date());
                 String message = "aoftion:" + dateString;
-                log.info("loop {}, sender sent = {}",i, message);
                 sender.send(message);
-                // String msg = receiver.receive();
-                // log.info("msg : {}", msg);
-                // TimeUnit.SECONDS.sleep(60);
                 
                 int mins = (int) (minute * 0.5);
                 Thread.sleep(mins);
                 log.info("received = {}", receiver.receive());
             } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
     }
