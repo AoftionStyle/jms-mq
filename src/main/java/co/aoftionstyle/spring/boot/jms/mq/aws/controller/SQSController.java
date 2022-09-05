@@ -15,7 +15,6 @@ public class SQSController implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // TODO Auto-generated method stub
         log.info("SQSController...");
         process.onProcess(args);
     }
