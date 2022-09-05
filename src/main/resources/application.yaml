@@ -1,0 +1,18 @@
+
+aws:
+    sqs:
+        accessKey:
+        secretKey:
+        region:
+        endpoint:
+        queueName:
+        sessionSize:
+
+ibm:
+    mq:
+        accessKey:
+        secretKey: 
+        region: 
+        endpoint: 
+        queueName: 
+        sessionSize: 
